@@ -51,8 +51,8 @@ io.of('/rooms').on('connection', function(socket) {
 });
 
 function createRoomName() {
-  return '5';
-  // return faker.PhoneNumber.phoneNumberFormat(6).replace(/\d-\d{3}-/, '');
+  // return '5';
+  return faker.PhoneNumber.phoneNumberFormat(6).replace(/\d-\d{3}-/, '');
 }
 
 function switchRooms(socket, roomName, oldRoom) {
