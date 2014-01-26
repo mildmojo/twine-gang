@@ -23,6 +23,14 @@ io.of('/rooms').on('connection', function(socket) {
     socket.broadcast.to(roomName).emit('click', id);
   });
 
+  // Sometimes passage arrivals might be driven by code.
+  // Broadcast server passage arrivals to keep clients in line.
+  socket.on('arrive', function(id) {
+    if (socket.isServer) {
+      socket.broadcast.to(roomName).emit('arrive', id);
+    }
+  });
+
   socket.on('join', function(newRoom, callback) {
     // Servers can't switch and new room has to exist.
     if (!(newRoom in rooms)) {
