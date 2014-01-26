@@ -15,10 +15,12 @@
     socket.on('id', function(room) {
       self.roomName = room;
       self.trigger('new_room', room);
+      console.log('new room: ' + room);
     });
 
-    socket.on('new_passage', function(passageName) {
-      self.trigger('new_passage', passageName);
+    socket.on('click', function(id) {
+      self.trigger('click', id);
+      console.log('click: ' + id);
     });
 
     this._socket = socket;
@@ -35,11 +37,13 @@
     });
   };
 
-  TGClient.prototype.visit = function(passageName) {
-    this._socket.emit('new_passage', passageName);
-  }
+  TGClient.prototype.click = function(id) {
+    this._socket.emit('click', id);
+    console.log('emitted click');
+  };
 
   MicroEvent.mixin(TGClient);
 
   window.TwineGang = new TGClient();
+  console.log('WORKIN ON A TWINE GANG');
 })();
