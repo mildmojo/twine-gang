@@ -7,8 +7,8 @@ var faker = require('Faker');
 // Room name => client count
 var rooms = {};
 
-app.use('/js/tg_client.js', express.static(__dirname + '/tg_client.js'));
 app.use('/assets', express.static(__dirname + '/assets'));
+app.use('/client', express.static(__dirname + '/client'));
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
