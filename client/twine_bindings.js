@@ -9,16 +9,13 @@
   }
 
   TwineGang.bind('click', function(id) {
-    jQuery("a[id='" + id + "']").trigger('click');
+    jQuery("a[id='" + id + "']").trigger('unity_actions');
   });
 
-  jQuery(function() {
-    jQuery('#passages').on('click', function(e) {
-      var internalLink = jQuery(e.target).closest('a.internalLink');
-      if (internalLink.length > 0) {
-        TwineGang.click(internalLink[0].getAttribute('id'));
-      }
-      return true;
-    });
+  TwineGang.bind('arrive', function(id) {
+    if (state.history[0].passage.title !== id) {
+      state.display(id);
+    }
   });
+
 })();

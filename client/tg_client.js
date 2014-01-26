@@ -23,6 +23,11 @@
       console.log('click: ' + id);
     });
 
+    socket.on('arrive', function(id) {
+      self.trigger('arrive', id);
+      console.log('arrive: ' + id);
+    });
+
     this._socket = socket;
   };
 
@@ -40,6 +45,11 @@
   TGClient.prototype.click = function(id) {
     this._socket.emit('click', id);
     console.log('emitted click');
+  };
+
+  TGClient.prototype.arrive = function(id) {
+    this._socket.emit('arrive', id);
+    console.log('emitted arrive', id);
   };
 
   MicroEvent.mixin(TGClient);
