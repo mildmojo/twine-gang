@@ -3,6 +3,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var faker = require('Faker');
+io.set('log level', 1);
 
 // Room name => client count
 var rooms = {};
@@ -18,24 +19,32 @@ io.of('/rooms').on('connection', function(socket) {
   var roomName = createRoomName();
   switchRooms(socket, roomName);
 
-  socket.on('new_passage', function(passageName) {
-    socket.broadcast.to(roomName).emit('new_passage', passageName);
+  socket.on('click', function(id) {
+    socket.broadcast.to(roomName).emit('click', id);
   });
 
-  socket.on('switch_rooms', function(newRoom, callback) {
+  socket.on('join', function(newRoom, callback) {
     // Servers can't switch and new room has to exist.
-    if (socket.get('isServer') || !(newRoom in rooms)) {
-      return callback(false);
+    if (!(newRoom in rooms)) {
+      if (typeof callback === 'function') {
+        callback(false);
+      }
+      return;
     }
 
     switchRooms(socket, newRoom, roomName);
     roomName = newRoom;
     callback(true);
   });
+
+  socket.on('disconnect', function() {
+    rooms[roomName]--;
+  });
 });
 
 function createRoomName() {
-  return faker.PhoneNumber.phoneNumberFormat(6).replace(/\d-\d{3}-/, '');
+  return '5';
+  // return faker.PhoneNumber.phoneNumberFormat(6).replace(/\d-\d{3}-/, '');
 }
 
 function switchRooms(socket, roomName, oldRoom) {
@@ -48,12 +57,12 @@ function switchRooms(socket, roomName, oldRoom) {
     // Join as client
     socket.join(roomName);
     rooms[roomName]++;
-    socket.set('isServer', false);
+    socket.isServer = false;
   } else {
     // Join as server
     socket.join(roomName);
     rooms[roomName] = 1;
-    socket.set('isServer', true);
+    socket.isServer = true;
   }
 
   socket.emit('id', roomName);
