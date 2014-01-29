@@ -10,7 +10,7 @@ Originally developed for use in the Global Game Jam 2014 entry, "Get a Clue"
 ([play](http://get-a-clue.herokuapp.com),
 [source](https://github.com/benjamingold/GGJ14GetAClue/)).
 
-** Usage
+## Usage
 
 1. Install node modules with `npm install`.
 2. Build your Twine story to `index.html` in this project's root next to `tg_server.js`.
@@ -58,7 +58,19 @@ TwineGang.bind('clientCount', function(count) {
 
 See [tg_client.js](/client/tg_client.js) for available events.
 
-** Thanks
+## Deploying to Heroku
+
+1. Install [Heroku Toolbelt](https://toolbelt.heroku.com/).
+2. `heroku auth:login`
+3. `heroku apps:create <appname>`
+4. `heroku git:clone <appname> && cd <appname>`
+5. `heroku labs:enable websockets`
+6. Copy your prepared Twine index.html to the newly-cloned app repository folder.
+7. `git add index.html && git commit -m 'Adds my story.'`
+8. `git push heroku master`
+9. Visit `http://<appname>.herokuapp.com`.
+
+## Thanks
 
 Thanks to Jerome Etienne for the [MicroEvent](https://github.com/jeromeetienne/microevent.js)
 library.
