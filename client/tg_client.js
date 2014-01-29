@@ -5,7 +5,7 @@
                (location.protocol + '//' + location.hostname +
                    (location.port ? ':' + location.port : ''));
     endpoint = endpoint + '/rooms';
-    var socket = io.connect(endpoint);
+    var socket = io.connect(endpoint); //, {reconnect: false});
     this.roomName = '';
 
     socket.on('connect', function(){
@@ -15,12 +15,12 @@
     socket.on('id', function(room) {
       self.roomName = room;
       self.trigger('new_room', room);
-      console.log('new room: ' + room);
+      console.log('Connect another browser for remote control: ' + endpoint.replace(/rooms/, '?room=' + room));
     });
 
     socket.on('click', function(id) {
       self.trigger('click', id);
-      console.log('click: ' + id);
+      // console.log('click: ' + id);
     });
 
     socket.on('arrive', function(id) {
@@ -44,12 +44,12 @@
 
   TGClient.prototype.click = function(id) {
     this._socket.emit('click', id);
-    console.log('emitted click');
+    // console.log('emitted click');
   };
 
   TGClient.prototype.arrive = function(id) {
     this._socket.emit('arrive', id);
-    console.log('emitted arrive', id);
+    // console.log('emitted arrive', id);
   };
 
   MicroEvent.mixin(TGClient);
