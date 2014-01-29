@@ -1,14 +1,19 @@
-twine-gang
+TwineGang
 ==========
 
-Server and client for cross-browser, cross-device Twine game control and
-synchronization. When two or more Twine games are synchronized, taking a link
-to a new passage in any of them will advance all other games to the same place.
-Plays nice with [Heroku](https://heroku.com) app hosting.
+TwineGang is a server and client for cross-browser, cross-device Twine game
+control and synchronization. When two or more Twine games are synchronized,
+taking a link to a new passage in any of them will advance all other games to
+the same place. Plays nice with [Heroku](https://heroku.com) app hosting.
 
 Originally developed for use in the Global Game Jam 2014 entry, "Get a Clue"
 ([play](http://get-a-clue.herokuapp.com),
 [source](https://github.com/benjamingold/GGJ14GetAClue/)).
+
+## Requirements
+
+- Hosting platform that supports websockets (like Heroku or Nodejitsu)
+- Browser with [websocket support](http://caniuse.com/#agents=desktop,ios_saf,op_mini,android,bb,and_chr,and_ff,ie_mob)
 
 ## Usage
 
