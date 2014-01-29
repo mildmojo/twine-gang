@@ -63,7 +63,9 @@ function switchRooms(socket, oldRoom, newRoom) {
 function leaveRoom(socket, roomName) {
   socket.leave(roomName);
   rooms[roomName]--;
-  if (rooms[roomName] <= 0) {
+  if (rooms[roomName] > 0) {
+    io.of('/rooms').in(roomName).emit('clientCount', rooms[roomName]);
+  } else {
     delete rooms[roomName];
   }
 }
@@ -81,7 +83,8 @@ function joinRoom(socket, roomName) {
     socket.isServer = true;
   }
 
-  socket.emit('id', roomName);
+  socket.emit('newRoom', roomName);
+  io.of('/rooms').in(roomName).emit('clientCount', rooms[roomName]);
 }
 
 var port = process.env.PORT || 3000;
