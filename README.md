@@ -38,29 +38,32 @@ Make sure your Twine HTML file loads the libraries TwineGang needs (after jQuery
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/client/microevent.js"></script>
 <script type="text/javascript" src="/client/tg_client.js"></script>
-<script type="text/javascript" src="/client/twine_bindings.js"></script>
 ```
 
 You may add additional scripts and assets in the `assets/` directory.
 
-In your Twine story, at a minimum, you'll need to add a passage tagged 'script':
+### Twine v1
 
-```javascript
-// requires jQuery
-// ^^^ makes sure jQuery is included on the page. If you've enabled jQuery in
-//   your StorySettings passage, you may remove this line.
+Add the Twine 1 client bindings to your Twine HTML file after the other TwineGang scripts you've included.
 
-// Broadcast arrival at a new passage to other clients.
-prerender.twineGang = function(div) {
-  if (typeof TwineGang !== 'undefined' && TwineGang) {
-    var passageName = this.title;
-    TwineGang.arrive(passageName);
-  }
-};
+```html
+<script type="text/javascript" src="/client/twine_bindings.js"></script>
+
 ```
 
-When each passage is rendered, this code will tell the server. The server will
-tell all the clients in the same "room" on the server to visit that passage.
+In your Twine story, you'll need to add a passage tagged 'script', and paste the contents of [`story_bindings/twine-v1-script-passage.js`](/story_bindings/twine-v1-script-passage.js).
+
+### Twine v2
+
+**NOTE:** Twine 2 has several "story formats", and not all of them provide scripting hooks, so not all of them can be used with TwineGang.
+
+In your Twine story, open the Story Javascript window and paste the integration code for the story format you're using. You can find code for different story formats in the `story_bindings` folder. (I recommend Sugarcube for this.)
+
+If there isn't a binding for the story format you use, and you'd like to write one, please feel free to open a pull request!
+
+### About events
+
+When each passage is rendered, the integration code described above will inform the server. The server will tell all the clients in the same "room" on the server to visit that passage.
 
 You may attach your own event handlers to TwineGang events with `TwineGang.bind`:
 
